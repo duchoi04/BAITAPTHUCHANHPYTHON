@@ -1,1 +1,19 @@
+CODE:
+import facebook
 
+# Đọc nội dung bài viết từ tệp văn bản
+with open('post_content.txt', 'r', encoding='utf-8') as file:
+    post_content = file.read()
+
+# Dán Page Access Token (bạn đã lấy từ Facebook Graph API Explorer hoặc trang quản lý page)
+page_access_token = 'EAAJVl9uoYdQBO3ZAvavYXfmHDOoabuI87XoGGCg7CO7G1qZAXIaCZBShDZAUiuQMHMuDE1sQURqPeX2GZAu7QtUEhfyqgkJ7ZBNdwsom4Y8lbAxRg6gMfgM51wX2t6tZCh8GPHJh9ZCZCBMIqbiKoqVIlE0rM4QiXNDAD3VZBmuDpZCdYAZAKVaBZCvcdV7B6f4GjDECAJpNAKaC0R9ZCvBI9iMCyZCaHzg'  # ⚠️ Thay bằng token thật của bạn
+
+# Tạo đối tượng kết nối với Facebook Graph API
+graph = facebook.GraphAPI(access_token=page_access_token)
+
+# Đăng bài lên Fanpage (dùng 'me' nếu token là của chính trang đó)
+try:
+    graph.put_object(parent_object='me', connection_name='feed', message=post_content)
+    print("✅ Bài viết đã được đăng thành công lên Fanpage.")
+except facebook.GraphAPIError as e:
+    print("❌ Lỗi khi đăng bài:", e)
